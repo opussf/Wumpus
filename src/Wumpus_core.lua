@@ -15,12 +15,11 @@ COLOR_END = "|r"
 
 function WUMPUS.OnLoad()
 	SLASH_WUMPUS1 = "/WUMPUS"
-	SlashCmdList["WUMPUS"] = function(msg) WUMPUS.command(msg); end
+	SlashCmdList["WUMPUS"] = function(msg) WUMPUS.Command(msg); end
 	WUMPUS.InitGame()
 end
 
 function WUMPUS.InitGame()
-	math.randomseed( os.time() )
 	WUMPUS.map = {}
 	WUMPUS.pits = {}
 	WUMPUS.bats = {}
@@ -261,3 +260,5 @@ function WUMPUS.ParseCmd(msg)
 		end
 	end
 end
+
+WUMPUS.OnLoad()

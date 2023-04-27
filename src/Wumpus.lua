@@ -15,6 +15,8 @@ WUMPUS = {}
 local loadedfile = assert( loadfile( includePath.."Wumpus_core.lua" ) )
 loadedfile( addonName, WUMPUS )
 
+math.randomseed( os.time() )
+
 WUMPUS.InitGame()
 
 while WUMPUS.player and WUMPUS.wumpus do
