@@ -99,16 +99,22 @@ function WUMPUS.PrintRoom()
 	print( string.format( "You are in room: %i, and have %i arrows.\nTunnels lead to rooms: %i, %i, and %i.%s%s%s",
 		 WUMPUS.player, WUMPUS.arrows, rooms[1], rooms[2], rooms[3], smell, feel, hear) )
 end
+function WUMPUS.CanMove( currentRoom, targetRoom )
+	for _, room in ipairs( WUMPUS.map[currentRoom].paths ) do
+		if targetRoom == room then
+			return true
+		end
+	end
+end
 
 function WUMPUS.Move( targetRoom )
 	targetRoom = tonumber(targetRoom)
-	local canMove = nil
-	for _, room in ipairs( WUMPUS.map[WUMPUS.player].paths ) do
-		if targetRoom == room then canMove=true; end
-	end
+	local canMove = WUMPUS.CanMove( WUMPUS.player, targetRoom )
 	if canMove then
 		WUMPUS.player = targetRoom
 		WUMPUS.TestRoom()
+	else
+		print( "That room is not connected to the current room." )
 	end
 end
 function WUMPUS.TestRoom()
@@ -130,7 +136,7 @@ function WUMPUS.StartleWumpus()
 	WUMPUS.wumpus = random(1,20)
 	print( "You startled the Wumpus.")
 	if WUMPUS.player == WUMPUS.wumpus then
-		print( "The Wumpus has killed you.\nGame Over.")
+		print( "The Wumpus has found and killed you.\nGame Over.")
 		WUMPUS.player = nil
 	end
 end
@@ -147,17 +153,43 @@ function WUMPUS.Split(inputstr, sep)
 end
 
 function WUMPUS.Shoot( roomList )
-	print( roomList )
 	if WUMPUS.arrows < 1 then
 		print( "You are out of arrows." )
 		return
 	end
-	local rooms = WUMPUS.Split( roomList, "," )
 	print( "You shoot an arrow.")
+	local rooms = WUMPUS.Split( roomList, "," )
+	while #rooms > 5 do
+		table.remove( rooms )
+	end
 	WUMPUS.arrow = WUMPUS.player  -- put the arrow in your room
 	WUMPUS.arrows = WUMPUS.arrows - 1
 	for _,room in ipairs( rooms ) do
+		room = tonumber(room)
+		local canMove = WUMPUS.CanMove( WUMPUS.arrow, room )
+		--print( canMove and "true" or "false" )
+		if canMove then
+			WUMPUS.arrow = room
+		else
+			WUMPUS.arrow = WUMPUS.map[WUMPUS.arrow].paths[random(1,3)]
+		end
+		if WUMPUS.TestArrow() then
+			return
+		end
+	end
+	WUMPUS.StartleWumpus()
+end
 
+function WUMPUS.TestArrow()
+	if WUMPUS.arrow == WUMPUS.wumpus then
+		print( string.format("You hit the Wumpus in room %s. You win!", WUMPUS.wumpus ) )
+		WUMPUS.wumpus = nil
+		return 1
+	end
+	if WUMPUS.arrow == WUMPUS.player then
+		print( "You hit yourself with the arrow. You lose.\nGame Over.")
+		WUMPUS.player = nil
+		return 1
 	end
 end
 

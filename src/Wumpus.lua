@@ -17,7 +17,7 @@ loadedfile( addonName, WUMPUS )
 
 WUMPUS.InitGame()
 
-while WUMPUS.player do
+while WUMPUS.player and WUMPUS.wumpus do
 	WUMPUS.PrintRoom()
 	io.write( "> " )
 	cmd = io.read("*line")
