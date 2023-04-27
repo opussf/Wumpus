@@ -42,7 +42,7 @@ function WUMPUS.InitGame()
 	WUMPUS.map[12] = { ["paths"] = { 3,11,13 } }
 	WUMPUS.map[13] = { ["paths"] = {12,14,20 } }
 	WUMPUS.map[14] = { ["paths"] = { 4,13,15 } }
-	WUMPUS.map[15] = { ["paths"] = { 5,14,16 } }
+	WUMPUS.map[15] = { ["paths"] = { 6,14,16 } }
 	WUMPUS.map[16] = { ["paths"] = {15,17,20 } }
 	WUMPUS.map[17] = { ["paths"] = { 7,16,18 } }
 	WUMPUS.map[18] = { ["paths"] = { 9,17,19 } }
