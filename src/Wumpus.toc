@@ -1,0 +1,8 @@
+## Title: Wumpus
+## Interface: @INTERFACE@
+## Notes: Wumpus (@VERSION@)
+## Author: opussf
+## Version: @VERSION@
+## Description: Game of Wumpus. Original by Gregory Yob (c) 1973
+## SavedVariables:
+Wumpus_core.lua
