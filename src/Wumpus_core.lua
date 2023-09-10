@@ -237,6 +237,9 @@ function WUMPUS.PrintHelp()
 end
 
 function WUMPUS.Command( msg )
+	if not WUMPUS.player or not WUMPUS.wumpus then
+		WUMPUS.InitGame()
+	end
 	local cmd, param = WUMPUS.ParseCmd(msg)
 	cmd = string.lower(cmd)
 	if WUMPUS.commandList[cmd] and WUMPUS.commandList[cmd].alias then
@@ -245,6 +248,7 @@ function WUMPUS.Command( msg )
 	local cmdFunc = WUMPUS.commandList[cmd]
 	if cmdFunc and cmdFunc.func then
 		cmdFunc.func(param)
+		WUMPUS.PrintRoom()
 	else
 		WUMPUS.PrintHelp()
 	end
